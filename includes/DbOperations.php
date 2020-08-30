@@ -23,12 +23,11 @@ class DbOperations{
            return USER_CREATED;
 
         }else{
-            USER_FAILURE;
+           return USER_FAILURE;
         }
 
         }
-        return USER_EXSISTS;
-
+        return USER_EXISTS;
     }
 
     public function userLogin($email, $password){

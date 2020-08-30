@@ -17,7 +17,7 @@ $app = new \Slim\App([
 
 
 /***
- * VREATE USER
+ * CREATE USER
  */
 
 
@@ -37,7 +37,9 @@ if(!haveEmptyParameters(array('email', 'password', 'name'), $response)){
 
     $db = new DbOperations;
 
-    $result = $db->createUser($email,$hash_password, $name);
+    // $result = $db->createUser($email,$hash_password, $name);
+    $result = $db->createUser($email, $hash_password, $name);
+
     
 
     if($result == USER_CREATED){
@@ -64,7 +66,7 @@ if(!haveEmptyParameters(array('email', 'password', 'name'), $response)){
         ->withHeader('Content-type', 'application/json')
         ->withStatus(422);
 
-    } else if($result == USER_EXSISTS){
+    }else if($result == USER_EXISTS){
         $message = array();
         $message['error'] = true;
         $message['message'] = 'User already exists';
@@ -157,10 +159,10 @@ $app->post('/userlogin', function(Request $request, Response $response){
 function haveEmptyParameters($required_params, $response){
     $error = false;
     $error_params = '';
-    $required_params = $_REQUEST;
+     $request_params = $_REQUEST; 
 
     foreach($required_params as $param){
-        if(!isset($request_params[$param]) || strlen($request_params[$param]<=0)){
+        if(!isset($request_params[$param]) || strlen($request_params[$param])<=0){
             $error = true;
             $error_params .=$param . ', ';
 
@@ -170,7 +172,7 @@ function haveEmptyParameters($required_params, $response){
     if($error){
         $error_detail = array();
         $error_detail['error']=true;
-        $error_detail['message'] = 'Required parameters:  ' . substr($error_params, 0, -2) . 'are missing or empty';
+        $error_detail['message'] = 'Required parameters:  ' . substr($error_params, 0, -1) . 'are missing or empty';
 
         $response->write(json_encode($error_detail));
 

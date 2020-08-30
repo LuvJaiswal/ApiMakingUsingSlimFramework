@@ -7,7 +7,7 @@ define('DB_NAME','all_solution');
 
 
 define('USER_CREATED','101');
-define('USER_EXSISTS','102');
+define('USER_EXISTS','102');
 define('USER_FAILURE','103');
 
 
