@@ -123,8 +123,8 @@ $app->post('/userlogin', function(Request $request, Response $response){
 
             $response_data = array();
             $response_data['error'] = true;
-            $response_data['message'] = 'User not exists';
-            $response_data['user'] =$user;
+            $response_data['message'] = 'User donot exists';
+           
 
             $response->write(json_encode($response_data));
 
@@ -137,7 +137,7 @@ $app->post('/userlogin', function(Request $request, Response $response){
             $response_data = array();
             $response_data['error'] = true;
             $response_data['message'] = 'Password donot match';
-            $response_data['user'] =$user;
+         
 
             $response->write(json_encode($response_data));
 
@@ -170,7 +170,7 @@ function haveEmptyParameters($required_params, $response){
     if($error){
         $error_detail = array();
         $error_detail['error']=true;
-        $error_detail['message'] = 'Required parameters: ' . substr($error_params, 0, -2) . 'are missing or empty';
+        $error_detail['message'] = 'Required parameters:  ' . substr($error_params, 0, -2) . 'are missing or empty';
 
         $response->write(json_encode($error_detail));
 
