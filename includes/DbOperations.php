@@ -58,6 +58,22 @@ class DbOperations{
         
     }
 
+    public function getAllUsers(){
+        $stmt = $this->con->prepare("SELECT id, email, name FROM users;");
+        $stmt->execute();
+        $stmt->bind_result($id, $email, $name);
+        $users = array();
+       while($stmt->fetch()){
+            $user = array();
+            $user['id'] = $id;
+            $user['email'] =$email;
+            $user['name'] =$name;
+           array_push($users, $user);
+        }
+        return $users;
+
+    }
+
     public function getUserByEmail($email){
         $stmt = $this->con->prepare("SELECT id, email, name FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
@@ -67,7 +83,7 @@ class DbOperations{
         $user = array();
         $user['id'] = $id;
         $user['email'] =$email;
-        $user['password'] =$name;
+        $user['name'] =$name;
         return $user;
     
     }
