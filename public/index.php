@@ -278,6 +278,31 @@ $app->post('/userlogin', function(Request $request, Response $response){
 });
 
 
+/**
+ * for delete function
+ */
+
+$app->delete('/deleteuser/{id}', function(Request $request, Response $response, array $args){
+    $id = $args['id'];
+
+    $db = new DbOperations; 
+
+    $response_data = array();
+
+    if($db->deleteUser($id)){
+        $response_data['error'] = false; 
+        $response_data['message'] = 'User has been deleted';    
+    }else{
+        $response_data['error'] = true; 
+        $response_data['message'] = 'Plase try again later';
+    }
+
+    $response->write(json_encode($response_data));
+
+    return $response
+    ->withHeader('Content-type', 'application/json')
+    ->withStatus(200);
+});
 
 
 
