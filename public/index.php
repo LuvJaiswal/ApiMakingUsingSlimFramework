@@ -229,6 +229,56 @@ $app->post('/userlogin', function(Request $request, Response $response){
   });
 
 
+   /**
+  * For UpdatePassword
+  */
+
+  $app->put('/updatepassword', function(Request $request, Response $response){
+
+    if(!haveEmptyParameters(array('currentpassword', 'newpassword', 'email'), $request, $response)){
+        
+        $request_data = $request->getParsedBody(); 
+
+        $currentpassword = $request_data['currentpassword'];
+        $newpassword = $request_data['newpassword'];
+        $email = $request_data['email']; 
+
+        $db = new DbOperations; 
+
+        $result = $db->updatePassword($currentpassword, $newpassword, $email);
+
+        if($result == PASSWORD_CHANGED){
+            $response_data = array(); 
+            $response_data['error'] = false;
+            $response_data['message'] = 'Password Changed';
+            $response->write(json_encode($response_data));
+            return $response->withHeader('Content-type', 'application/json')
+                            ->withStatus(200);
+
+        }else if($result == PASSWORD_DO_NOT_MATCH){
+            $response_data = array(); 
+            $response_data['error'] = true;
+            $response_data['message'] = 'You have given wrong password';
+            $response->write(json_encode($response_data));
+            return $response->withHeader('Content-type', 'application/json')
+                            ->withStatus(200);
+        }else if($result == PASSWORD_NOT_CHANGED){
+            $response_data = array(); 
+            $response_data['error'] = true;
+            $response_data['message'] = 'Some error occurred';
+            $response->write(json_encode($response_data));
+            return $response->withHeader('Content-type', 'application/json')
+                            ->withStatus(200);
+        }
+    }
+
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(422);  
+});
+
+
+
 
 
 function haveEmptyParameters($required_params, $request, $response){
