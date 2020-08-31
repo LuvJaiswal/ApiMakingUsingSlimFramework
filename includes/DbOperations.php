@@ -87,8 +87,17 @@ class DbOperations{
         return $user;
     
     }
+
+
+    public function updateUser($email, $name , $id){
+        $stmt = $this->con->prepare("UPDATE users SET email = ?, name = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $email, $name, $id);
+        if($stmt->execute())
+        return true;
+        return false;
+    }
     
-        private function isEmailExist($email){
+     private function isEmailExist($email){
             $stmt = $this->con->prepare("SELECT id FROM users WHERE email = ?");
             $stmt->bind_param("s",$email);
             $stmt->execute();
@@ -96,4 +105,4 @@ class DbOperations{
             return $stmt->num_rows > 0;
         }
 
-}
+    }
