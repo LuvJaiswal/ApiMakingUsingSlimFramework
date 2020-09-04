@@ -183,13 +183,13 @@ $app->post('/userlogin', function(Request $request, Response $response){
   $app->put('/updateuser/{id}', function(Request $request, Response $response, array $args){
 
     $id = $args['id'];
-    if(!haveEmptyParameters(array('email', 'name', 'id'), $request, $response)){
+    if(!haveEmptyParameters(array('email', 'name'), $request, $response)){
 
         $request_data = $request->getParsedBody();
 
         $email = $request_data['email'];
         $name = $request_data['name'];
-        $id = $request_data['id'];
+        // $id = $request_data['id'];
 
         $db = new DbOperations;
         if($db->updateUser($email, $name, $id)){
