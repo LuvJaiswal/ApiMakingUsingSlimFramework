@@ -16,6 +16,7 @@ $app = new \Slim\App([
 ]);
 
 $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
+    "secure"=>false,
     "users" => [
         "lovejaiswal" => "jaiswal123",
     ]
