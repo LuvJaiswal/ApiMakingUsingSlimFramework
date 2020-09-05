@@ -15,6 +15,12 @@ $app = new \Slim\App([
 
 ]);
 
+$app->add(new Tuupola\Middleware\HttpBasicAuthentication([
+    "users" => [
+        "lovejaiswal" => "jaiswal123",
+    ]
+]));
+
 
 /***
  * CREATE USER
