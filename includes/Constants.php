@@ -19,3 +19,8 @@ define('USER_PASSWORD_DO_NOT_MATCH','203');
 define('PASSWORD_CHANGED','301');
 define('PASSWORD_DO_NOT_MATCH','302');
 define('PASSWORD_NOT_CHANGED','303');
+
+
+define('PRODUCT_ADDED','401');
+define('PRODUCT_ADD_FAILED','402');
+define('PRODUCT_EXISTS','403');

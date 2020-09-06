@@ -139,4 +139,24 @@ class DbOperations{
             return $stmt->num_rows > 0;
         }
 
+
+
+
+        public function addProducts($pname, $pdescription, $pprice){
+            $stmt = $this->con->prepare("INSERT INTO products (pname, pdescription , pprice) VALUES (?, ?, ?)");
+            $stmt->bind_param("ssi", $pname, $pdescription, $pprice);  // 3 strings values as s s s
+     
+            if($stmt->execute()){
+                return PRODUCT_ADDED;
+     
+             }else{
+                return PRODUCT_ADD_FAILED;
+             }
+    
+             return PRODUCT_EXISTS;
+         }
+
+
+
+
 }

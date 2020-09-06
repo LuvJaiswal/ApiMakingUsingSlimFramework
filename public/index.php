@@ -95,6 +95,14 @@ return $response
 
 
 
+
+
+
+
+
+
+
+
 /***
  * USER LOGIN
  */
@@ -311,9 +319,75 @@ $app->delete('/deleteuser/{id}', function(Request $request, Response $response, 
     ->withStatus(200);
 });
 
+/***
+ * add products
+ */
+
+$app->post('/addproducts',function(Request $request, Response $response){
+    if(!haveEmptyParameters(array('pname', 'pdescription', 'pprice'), $request, $response)){
+    
+        $request_data = $request->getParsedBody();
+    
+        $pname = $request_data['pname'];
+        $pdescription = $request_data['pdescription'];
+        $pprice = $request_data['pprice'];
+    
+    
+    
+        $db = new DbOperations;
+    
+        // $result = $db->createUser($email,$hash_password, $name);
+        $result = $db->addProducts($pname, $pdescription, $pprice);
+    
+        
+    
+        if($result == PRODUCT_ADDED){
+    
+            $message = array();
+            $message['error'] = false;
+            $message['message'] = 'product created Successfully';
+    
+            $response->write(json_encode($message));
+            return $response
+                ->withHeader('Content-type', 'application/json')
+                ->withStatus(401);
+    
+    
+        }else if($result == PRODUCT_ADD_FAILED){
+    
+            $message = array();
+            $message['error'] = true;
+            $message['message'] = 'Product failed, error occured';
+    
+            $response->write(json_encode($message));
+           
+            return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus(422);
+    
+        }else if($result == PRODUCT_EXISTS){
+            $message = array();
+            $message['error'] = true;
+            $message['message'] = 'product already exists';
+    
+            $response->write(json_encode($message));
+            
+            return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus(422);
+    
+        }
+    
+    }
+    return $response
+    ->withHeader('Content-type', 'application/json')
+    ->withStatus(422);
+    
+    });
 
 
-function haveEmptyParameters($required_params, $request, $response){
+
+    function haveEmptyParameters($required_params, $request, $response){
     $error = false;
     $error_params = '';
     //  $request_params = $_REQUEST; 
